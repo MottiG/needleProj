@@ -5,7 +5,7 @@ import os
 os.chdir(os.path.dirname(os.getcwd()))
 os.chdir(os.path.dirname(os.getcwd()))
 
-PERCENTS = 15   # percents of nodes in the sample
+PERCENTS = 0.15   # percents of nodes in the sample
 VERT_FILE = os.path.join(os.getcwd(), 'data', 'raw', 'sample','patents.txt')
 EDGE_FILE = os.path.join(os.getcwd(), 'data', 'raw', 'sample','citations.txt')
 
@@ -25,7 +25,7 @@ with open(VERT_FILE, encoding="utf8") as vf:
 print('Adding vertices to  G')
 G.add_nodes_from(vertices)
 N = G.number_of_nodes()
-num_of_desire_nodes = PERCENTS*N/100
+num_of_desire_nodes = PERCENTS*N
 print("number of nodes: ", N)
 print("num_of_desire_nodes: ",num_of_desire_nodes)
 
