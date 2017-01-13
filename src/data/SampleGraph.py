@@ -1,9 +1,13 @@
 import networkx as nx
 import random
+import os
+
+os.chdir(os.path.dirname(os.getcwd()))
+os.chdir(os.path.dirname(os.getcwd()))
 
 PERCENTS = 15   # percents of nodes in the sample
-VERT_FILE = 'data/patents.txt'
-EDGE_FILE = 'data/citations.txt'
+VERT_FILE = os.path.join(os.getcwd(), 'data', 'raw', 'sample','patents.txt')
+EDGE_FILE = os.path.join(os.getcwd(), 'data', 'raw', 'sample','citations.txt')
 
 
 print("Getting edges")
@@ -47,11 +51,12 @@ print('number of sampled edges: ', Gs.number_of_edges())
 print('len of gs_edges: ', len(gs_edges))
 
 print('Writing nodes_sample file')
-with open('nodes_sample.txt', mode='wt', encoding='utf-8') as ns:
+output_dir = os.path.join(os.getcwd(), 'data', 'interim' )
+with open(os.path.join(output_dir, 'nodes_sample.txt'), mode='wt', encoding='utf-8') as ns:
     ns.write('\n'.join(Gs.nodes()))
 
 print('Writing edges_sample file')
-with open('edges_sample.txt', mode='wt', encoding='utf-8') as es:
+with open(os.path.join(output_dir, 'edges_sample.txt'), mode='wt', encoding='utf-8') as es:
     es.write('\n'.join(gs_edges))
 
 print('Done')
