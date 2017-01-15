@@ -24,6 +24,7 @@ with open(VERT_FILE) as vf:
 
 
 
+
 print("Getting out degree")
 with open(EDGE_FILE,  mode='rb') as ef:
     next(ef)
