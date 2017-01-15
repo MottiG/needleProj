@@ -1,7 +1,7 @@
 import networkx as nx
 import random
 import os
-#test
+
 os.chdir(os.path.dirname(os.getcwd()))
 os.chdir(os.path.dirname(os.getcwd()))
 
