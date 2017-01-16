@@ -11,7 +11,6 @@ PERCENTS = 0.15   # percents of nodes in the sample
 VERT_FILE = os.path.join(os.getcwd(), 'data', 'raw','patents.txt')
 EDGE_FILE = os.path.join(os.getcwd(), 'data', 'raw','citations.txt')
 
-
 inDegrees = defaultdict(int)
 outDegrees = defaultdict(int)
 
@@ -22,9 +21,6 @@ with open(VERT_FILE) as vf:
         inDegrees[line.strip().split()[0]]
         outDegrees[line.strip().split()[0]]
 
-
-
-
 print("Getting out degree")
 with open(EDGE_FILE,  mode='rb') as ef:
     next(ef)
@@ -33,13 +29,10 @@ with open(EDGE_FILE,  mode='rb') as ef:
         outDegrees[edge[0]]+=1
         inDegrees[edge[1]]+=1
 
-print "in-degrees distribution"
-print Counter(inDegrees.values()).most_common()
+print( "in-degrees distribution")
+print( Counter(inDegrees.values()).most_common())
 
-print "in-degrees distribution"
-print Counter(outDegrees.values()).most_common()
-
-
-
+print( "in-degrees distribution")
+print( Counter(outDegrees.values()).most_common())
 
 print('Done')
