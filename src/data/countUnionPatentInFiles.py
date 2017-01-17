@@ -25,7 +25,6 @@ def AllPatents():
     with open(PATENTS_FILE, encoding="utf8") as vf:
         next(vf)
         for line in vf:
-
             patents_patents[line.strip().split()[0]]
     print(len(patents_patents))
 
