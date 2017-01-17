@@ -1,13 +1,13 @@
 __author__ = 'slouis'
+# Reads the citation data (row by row) and creates dictionary of in/out degrees
+# TODO: save as pickle?
 
-import random
 import os
 from collections import defaultdict, Counter
 
 os.chdir(os.path.dirname(os.getcwd()))
 os.chdir(os.path.dirname(os.getcwd()))
 
-PERCENTS = 0.15   # percents of nodes in the sample
 VERT_FILE = os.path.join(os.getcwd(), 'data', 'raw','patents.txt')
 EDGE_FILE = os.path.join(os.getcwd(), 'data', 'raw','citations.txt')
 
@@ -34,5 +34,7 @@ print( Counter(inDegrees.values()).most_common())
 
 print( "in-degrees distribution")
 print( Counter(outDegrees.values()).most_common())
+
+
 
 print('Done')
