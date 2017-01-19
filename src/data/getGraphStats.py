@@ -54,18 +54,18 @@ def plotDegreesFull(degreeDis, title = "degree distribution", ifShow = True, fil
 
     plt.clf()
 
-def plotDegrees(degreeDis, title = "degree distribution", ifShow = True, fileName = ""):
-    print( Counter(degreeDis.values()).most_common(10))
-
-    # Plot rank-frequency
-
-    # Plot histogram
-    plt.hist(list(degreeDis.values()))
+def plotDegrees(degrees, title = "degree distribution", ifShow = True, fileName = ""):
+    print( Counter(degrees).most_common(10))
+    fig = plt.figure()
+    binwidth = 1
+    bins=range(min(degrees), max(degrees) + binwidth, binwidth)
+    plt.hist(list(degrees))
     plt.xlabel('degree')
-    plt.ylabel('frequency')
+    plt.yscale('log')
+    plt.ylabel('log frequency')
     plt.title(title)
-
-
+    ax = fig.add_subplot(111)
+    ax.set_xlim(0, max(degrees))
     if ifShow : plt.show()
     if len(fileName): plt.savefig(fileName+'.png')
 
@@ -75,7 +75,9 @@ def plotDegrees(degreeDis, title = "degree distribution", ifShow = True, fileNam
 LIMIT_NUM_ROWS = float('Inf')
 
 project_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..'))
-input_dir = os.path.join(project_dir, 'data', 'interim', 'sample')
+# input_dir = os.path.join(project_dir, 'data', 'interim', 'sample')
+# output_dir = os.path.join(project_dir, 'data', 'processed', 'sample')
+input_dir = os.path.join(project_dir, 'data', 'raw')
 output_dir = os.path.join(project_dir, 'data', 'processed', 'sample')
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
@@ -112,11 +114,11 @@ with open(EDGE_FILE_PATH,  mode='r', encoding='utf-8') as ef:
         if row_counter >= LIMIT_NUM_ROWS:
             break
 
-plotDegrees(inDegrees, title = "In degree distribution", ifShow = False, fileName = os.path.join(output_dir, 'inDegreeDistributions '  + str(LIMIT_NUM_ROWS)))
-plotDegrees(outDegrees, title = "out degree distribution", ifShow = False, fileName = os.path.join(output_dir, 'outDegreeDistributions '  + str(LIMIT_NUM_ROWS)))
+plotDegrees(inDegrees.values(), title = "In degree distribution", ifShow = False, fileName = os.path.join(output_dir, 'inDegreeDistributions '  + str(row_counter)))
+plotDegrees(outDegrees.values(), title = "out degree distribution", ifShow = False, fileName = os.path.join(output_dir, 'outDegreeDistributions '  + str(row_counter)))
 
-pickle.dump(inDegrees, open(os.path.join(output_dir, 'inDegreeDistributions'+ str(LIMIT_NUM_ROWS)+'.pickle'), 'wb'))
-pickle.dump(outDegrees, open(os.path.join(output_dir, 'outDegreeDistributions'+ str(LIMIT_NUM_ROWS)+'.pickle'), 'wb'))
+pickle.dump(inDegrees, open(os.path.join(output_dir, 'inDegreeDistributions'+ str(row_counter)+'.pickle'), 'wb'))
+pickle.dump(outDegrees, open(os.path.join(output_dir, 'outDegreeDistributions'+ str(row_counter)+'.pickle'), 'wb'))
 
 
 print('Done')
