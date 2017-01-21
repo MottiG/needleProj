@@ -46,6 +46,6 @@ print("Finished")
 full_patent_table = patents_df.join(categories_df, how='outer').join(abstract_df, how='outer').join(authors_df, how='outer').join(citations_df, how='outer')
 patent_no_nas = full_patent_table.dropna()
 
-pickle.dump(full_patent_table, open(os.path.join(output_dir, 'patent_table_clean.pickle'), 'wb'))
-pickle.dump(patent_no_nas, open(os.path.join(output_dir, 'patent_table_with_nas.pickle'), 'wb'))
+pickle.dump(patent_no_nas, open(os.path.join(output_dir, 'patent_table_clean.pickle'), 'wb'))
+pickle.dump(full_patent_table, open(os.path.join(output_dir, 'patent_table_with_nas.pickle'), 'wb'))
 
