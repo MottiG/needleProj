@@ -25,7 +25,7 @@ class TfIdfer:
         features_df = pd.DataFrame(index=df.index.copy(), columns=cols)
         vectorizer = TfidfVectorizer(stop_words=self.stopwords if remove_stopwords else None)
         for col in cols:
-            col_tf_idf = TfidfVectorizer().fit_transform(df[col])  # calc tf-idf
+            col_tf_idf = vectorizer.fit_transform(df[col])  # calc tf-idf
             features_df[col] = list(col_tf_idf)
 
         return features_df
