@@ -72,7 +72,7 @@ def nodeID2patentID(nID):
     if len(nID) ==0 : return str(nID)
     return digits2letters[nID[0]] + nID[1:]
 
-project_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..'))
+project_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..','..'))
 input_dir = os.path.join(project_dir, 'data', 'raw')
 output_dir = os.path.join(project_dir, 'data', 'processed')
 if not os.path.exists(output_dir):
@@ -82,68 +82,30 @@ cited_by_null = defaultdict(int)
 
 #Reading the files
 print("Loading the data")
-VERT_FILE_PATH = os.path.join(input_dir, 'patents.txt')
-EDGE_FILE_PATH = os.path.join(input_dir, 'citations.txt')
 
-LIMIT_NUM_ROWS = float("inf")
-ptIDattr = 'ptID'
-if LIMIT_NUM_ROWS < float("inf"):
-    gr = snap.TNGraph.New(LIMIT_NUM_ROWS, 3*LIMIT_NUM_ROWS) # New(Nodes, Edges)
-else:
-    gr = snap.TNGraph.New(int(3e6),int(60e6))
+edge_counter = 57584271 # 100000 or 57584271
 
 
-print("Loading vertices")
-with open(VERT_FILE_PATH, mode='r') as vf:
-    next(vf)
-    row_counter = 0
-    for line in vf:
-        if row_counter % 100000 == 0 : print(row_counter)
-        row_counter +=1
-        patentId = patentID2nodeID(line.strip().split()[0])
-
-        if not gr.IsNode(patentId):
-            nodeI = gr.AddNode(patentId)
-        if row_counter >= LIMIT_NUM_ROWS:
-            break
-
-print("reading edges")
-with open(EDGE_FILE_PATH,  mode='r') as ef:
-    next(ef)
-    row_counter = 0
-    for edgeRow in ef:
-        if row_counter % 100000 == 0 : print(row_counter)
-        row_counter +=1
-        edge = edgeRow.split()
-        # if edge[0] == "NULL" or edge[1] == "NULL":
-        #     print(edgeRow)
-        #     print (row_counter)
-
-        p0 = patentID2nodeID(edge[0])
-        p1 = patentID2nodeID(edge[1])
-        if not gr.IsNode(p0) :gr.AddNode(p0)
-        if not gr.IsNode(p1) :gr.AddNode(p1)
-        if p0 and p1 :
-            gr.AddEdge(p0,p1)
-        else:
-            if p0 : # p0 is citing null  (p0-->null)  REDUNDANT : NEVER HAPPENS IN OUR DATA!
-                citing_null[p0] += 1
-            else:   # p1 is cited by null  (null-->p1)
-                cited_by_null[p1] += 1
-        # outDegrees[edge[0]]+=1
-        # inDegrees[edge[1]]+=1
-        if row_counter >= LIMIT_NUM_ROWS:
-            break
+cited_by_null = pickle.load(open(os.path.join(output_dir, 'cited_by_null_'+ str(edge_counter)+'.pickle'),'rb'))
+FIn = snap.TFIn(os.path.join(output_dir, 'citationGraph_'+ str(edge_counter)+'.graph'))
+gr = snap.TNGraph.Load(FIn)
 
 
-# inDegrees = pickle.load(open(os.path.join(output_dir, 'inDegreeDistributions.pickle'), 'rb'))
-# outDegrees = pickle.load(open(os.path.join(output_dir, 'outDegreeDistributions.pickle'), 'rb'))
+# Clauset-Newman-Moore community detection method for large networks
 
-# inOutRatio = { k: inDegrees.get(k, 0) / outDegrees.get(k, 0) for k in set(inDegrees) | set(outDegrees) }
+CmtyV = snap.TCnComV()
 
-pickle.dump(cited_by_null,open(os.path.join(output_dir, 'cited_by_null '+ str(row_counter)+'.pickle'),'w'))
-FOut = snap.TFOut(os.path.join(output_dir, 'citationGraph '+ str(row_counter)+'.graph'))
-gr.Save(FOut)
-FOut.Flush()
+print("converting to undirected")
+gr = snap.ConvertGraph(snap.PUNGraph,gr)
+
+print("Clauset-Newman-Moore community detection")
+modularity = snap.CommunityCNM(gr, CmtyV)
+print(len(CmtyV))
+
+# for Cmty in CmtyV:
+#     print "Community: "
+#     for NI in Cmty:
+#         print NI
+print "The modularity of the network is %f" % modularity
 
 print('')
