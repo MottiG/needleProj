@@ -88,4 +88,4 @@ with open(EDGE_FILE_PATH,  mode='r', encoding='utf-8') as ef:
 
 pickle.dump(gr, open(os.path.join(output_dir, 'citationGraph '+ str(row_counter)+'.pickle'), 'wb'))
 
-print('')
+print('Number of nodes:', len(gr.nodes()), ', Number of edges:', len(gr.edges()))
