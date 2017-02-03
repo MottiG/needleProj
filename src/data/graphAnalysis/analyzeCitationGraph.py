@@ -100,12 +100,19 @@ gr = snap.ConvertGraph(snap.PUNGraph,gr)
 
 print("Clauset-Newman-Moore community detection")
 modularity = snap.CommunityCNM(gr, CmtyV)
-print(len(CmtyV))
+
+print"saving to file"
+
+SOut = snap.TFOut(os.path.join(output_dir, 'communities_vec'+'.graph'))
+CmtyV.Save(SOut)
+SOut.Flush()
 
 # for Cmty in CmtyV:
 #     print "Community: "
 #     for NI in Cmty:
 #         print NI
 print "The modularity of the network is %f" % modularity
+print "Number of communities: %f" % len(CmtyV)
+
 
 print('')
