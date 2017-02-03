@@ -3,7 +3,7 @@ from src.features.ft_idfer import TfIdfer
 from scipy.sparse import hstack
 
 
-class ClusterModle:
+class ClusterModel:
     """
     perform initial clustering to the data
     """
