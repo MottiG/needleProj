@@ -4,7 +4,7 @@ from collections import Counter, defaultdict
 
 import matplotlib.pyplot as plt
 
-import snap
+from . import snap
 
 try:
    import cPickle as pickle
@@ -61,7 +61,7 @@ def patentID2nodeID(ptID):
     if letters2digits.has_key(letters):
         return int(letters2digits[letters] + digits)
     else:
-        print ptID
+        print (ptID)
         return "error"
 
 
@@ -101,7 +101,7 @@ gr = snap.ConvertGraph(snap.PUNGraph,gr)
 print("Clauset-Newman-Moore community detection")
 modularity = snap.CommunityCNM(gr, CmtyV)
 
-print"saving to file"
+print("saving to file")
 
 SOut = snap.TFOut(os.path.join(output_dir, 'communities_vec'+'.graph'))
 CmtyV.Save(SOut)
@@ -111,8 +111,8 @@ SOut.Flush()
 #     print "Community: "
 #     for NI in Cmty:
 #         print NI
-print "The modularity of the network is %f" % modularity
-print "Number of communities: %f" % len(CmtyV)
+print ("The modularity of the network is %f" % modularity)
+print ("Number of communities: %f" % len(CmtyV))
 
 
 print('')
