@@ -23,9 +23,11 @@ def build_features(df):
 
     tfIdfer = TfIdfer()
     tf_idf_features_dict = tfIdfer.get_features(df, COLS)
+    print('Got tfidt features')
 
-    graph_geatures_Builder = GraphFeaturesBuilder()
+    # graph_geatures_Builder = GraphFeaturesBuilder()
     # graph_features_dict = graph_geatures_Builder.get_features(N_COMMUNITIES_LIST)
+    # print('Got graph features')
 
     features_sparse_matrix = hstack(list(tf_idf_features_dict.values()))
     return features_sparse_matrix

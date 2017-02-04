@@ -6,7 +6,7 @@ Build a dendogram of the patents, by creating several levels of k-means clusters
 different number of clusters
 """
 
-LEVELS = [30, 7]  # number of clusters required for each level, must be descending order.
+LEVELS = [1000, 7]  # number of clusters required for each level, must be descending order.
 
 
 def build_dendogram(features_sparse_matrix, dendogram_df: pd.DataFrame) -> pd.DataFrame:
@@ -20,7 +20,7 @@ def build_dendogram(features_sparse_matrix, dendogram_df: pd.DataFrame) -> pd.Da
 
     dendogram_df = pd.concat([dendogram_df, pd.DataFrame(columns=LEVELS)], copy=False)
 
-    print("K-means...")
+    print("computing K-means...")
     last_centroids = None
     for i in range(len(LEVELS)):
         k = LEVELS[i]
