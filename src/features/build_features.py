@@ -1,7 +1,7 @@
 import os
 from scipy.sparse import hstack
-from src.features.ft_idfer import TfIdfer
-from src.features.graph_features_builder import GraphFeaturesBuilder
+from .ft_idfer import TfIdfer
+from .graph_features_builder import GraphFeaturesBuilder
 
 """
 build all the features of the patents - text features (tfidf vectors) and graph features (communities)

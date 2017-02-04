@@ -1,12 +1,13 @@
 import pandas as pd
 import os
-from src.features.build_features import build_features
-from src.models.build_dendogram import build_dendogram
-from src.visualization import visualize
+from features.build_features import build_features
+from models.build_dendogram import build_dendogram
+from visualization import visualize
 from sklearn.decomposition import TruncatedSVD
 
 # Load data
-project_dir = os.path.abspath(os.path.join('__file__', '..', '..'))
+
+project_dir = os.path.abspath(os.path.join(__file__, '..', '..'))
 input_dir = os.path.join(project_dir, 'data', 'processed')
 print('Loading data')
 df = pd.read_pickle(os.path.join(input_dir, 'patent_table_clean.pickle'))
