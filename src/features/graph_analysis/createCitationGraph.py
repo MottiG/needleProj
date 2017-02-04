@@ -85,7 +85,7 @@ print("Loading the data")
 VERT_FILE_PATH = os.path.join(input_dir, 'patents.txt')
 EDGE_FILE_PATH = os.path.join(input_dir, 'citations.txt')
 
-LIMIT_NUM_ROWS = 100000 #float("inf") #
+LIMIT_NUM_ROWS = 150000 #float("inf") #
 
 if LIMIT_NUM_ROWS < float("inf"):
     gr = snap.TNGraph.New(LIMIT_NUM_ROWS, 3*LIMIT_NUM_ROWS) # New(Nodes, Edges)
