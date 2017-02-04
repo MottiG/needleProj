@@ -8,13 +8,12 @@ from src.visualization import visualize
 project_dir = os.path.abspath(os.path.join('__file__', '..', '..'))
 input_dir = os.path.join(project_dir, 'data', 'processed', 'sample')
 df = pd.read_pickle(os.path.join(input_dir, 'patent_table_clean.pickle'))
-dendogram_df = pd.DataFrame(index=df.index.copy())
 
 # Create features
 features_sparse_matrix = build_features(df)
 
 # build dendogram
-dendogram = build_dendogram(features_sparse_matrix, dendogram_df)
+dendogram = build_dendogram(features_sparse_matrix, pd.DataFrame(index=df.index.copy()))
 
 # visualize
 # visualize(dendogram)
