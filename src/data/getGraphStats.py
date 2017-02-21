@@ -47,7 +47,7 @@ print("Loading the data")
 VERT_FILE_PATH = os.path.join(input_dir, 'patents.txt')
 EDGE_FILE_PATH = os.path.join(input_dir, 'citations.txt')
 
-LIMIT_NUM_ROWS = float("Inf")
+LIMIT_NUM_ROWS = 10000#float("Inf")
 gr = digraph()
 
 print("Loading vertices")
