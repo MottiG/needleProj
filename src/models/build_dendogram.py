@@ -6,10 +6,9 @@ Build a dendogram of the patents, by creating several levels of k-means clusters
 different number of clusters
 """
 
-LEVELS = [100, 7]  # number of clusters required for each level, must be descending order.
 
 
-def build_dendogram(features_sparse_matrix, dendogram_df: pd.DataFrame) -> pd.DataFrame:
+def build_dendogram(features_sparse_matrix, dendogram_df: pd.DataFrame, treeLevels : list) -> pd.DataFrame:
     """
     Build a dendogram of the patents
     :param features_sparse_matrix: scipy csr matrix of shape (n_patents, n_features)
@@ -18,12 +17,12 @@ def build_dendogram(features_sparse_matrix, dendogram_df: pd.DataFrame) -> pd.Da
     each patent
     """
 
-    dendogram_df = pd.concat([dendogram_df, pd.DataFrame(columns=LEVELS)], copy=False)
+    dendogram_df = pd.concat([dendogram_df, pd.DataFrame(columns=treeLevels)], copy=False)
 
     print("computing K-means...")
     last_centroids = None
-    for i in range(len(LEVELS)):
-        k = LEVELS[i]
+    for i in range(len(treeLevels)):
+        k = treeLevels[i]
         print("K-means for " + str(k) + " clusters")
         km = KMeans(n_clusters=k , n_jobs = -1)
         if i == 0:
@@ -32,7 +31,7 @@ def build_dendogram(features_sparse_matrix, dendogram_df: pd.DataFrame) -> pd.Da
         else:
             km.fit(last_centroids)
             for j in range(len(last_centroids)):
-                dendogram_df.ix[dendogram_df[LEVELS[i - 1]] == j, k] = km.labels_[j]
+                dendogram_df.ix[dendogram_df[treeLevels[i - 1]] == j, k] = km.labels_[j]
         last_centroids = km.cluster_centers_
     print("done.")
 
