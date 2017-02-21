@@ -1,8 +1,8 @@
 import pandas as pd
 import os
-from features.build_features import build_features
-from models.build_dendogram import build_dendogram
-from visualization import visualize
+from src.features.build_features import build_features
+from src.models.build_dendogram import build_dendogram
+from src.visualization import visualize
 from sklearn.decomposition import TruncatedSVD
 
 
@@ -18,7 +18,7 @@ def main():
 
     # feature dimension reduction
     print("feature dimension reduction")
-    pca = TruncatedSVD(n_components=100)
+    pca = TruncatedSVD(n_components=30)
     features_sparse_matrix = pca.fit_transform(features_sparse_matrix)
 
     # build dendogram
