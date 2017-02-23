@@ -47,7 +47,7 @@ def nodeID2patentID(nID):
 
 project_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..','..'))
 input_dir = os.path.join(project_dir, 'data', 'raw')
-output_dir = os.path.join(project_dir, 'data', 'processed')
+output_dir = os.path.join(project_dir, 'data', 'processed','citation graph')
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 edge_counter = 500000 # 100000 or 57584271
