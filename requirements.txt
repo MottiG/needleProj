@@ -1,5 +1,4 @@
 scipy
 nltk
-sklearn
 numpy
 pandas
