@@ -1,2 +1,4 @@
+scipy
+nltk
 numpy
 pandas
