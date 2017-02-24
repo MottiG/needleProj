@@ -1,8 +1,8 @@
 import pandas as pd
 import os
-from features.build_features import build_features
-from models.build_dendogram import build_dendogram
-from visualization import visualize
+from src.features.build_features import build_features
+from src.models.build_dendogram import build_dendogram
+from src.visualization import visualize
 from sklearn.decomposition import TruncatedSVD
 import time
 
@@ -10,10 +10,10 @@ import time
 def main():
     # for running on full data set SAMPLE = ""
     # SAMPLE = "sample"
-    SAMPLE = ""
+    SAMPLE = "sample"
 
     # build dendogram
-    treeLevels = [1000, 100, 7]  # number of clusters required for each level, must be descending order.
+    treeLevels = [100, 7]  # number of clusters required for each level, must be descending order.
     N_COMPONENTS = 100
 
     # Load data
