@@ -54,11 +54,11 @@ G.simplify()
 print("v_community_multilevel")
 v_community_multilevel = G.community_multilevel(return_levels = True)
 
-print("v_community_fastgreedy")
-v_community_fastgreedy = G.community_fastgreedy()
+# print("v_community_fastgreedy")
+# v_community_fastgreedy = G.community_fastgreedy()
 
 print("saving to files")
 pickle.dump(v_community_multilevel, open(os.path.join(graph_analysis_dir, 'v_community_multilevel'+'.pickle'),'wb'))
-pickle.dump(v_community_fastgreedy, open(os.path.join(graph_analysis_dir, 'v_community_fastgreedy'+'.pickle'),'wb'))
+# pickle.dump(v_community_fastgreedy, open(os.path.join(graph_analysis_dir, 'v_community_fastgreedy'+'.pickle'),'wb'))
 
 print("Done!")
