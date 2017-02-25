@@ -1,9 +1,11 @@
 import pandas as pd
 import os
+import time
+
 from src.features.build_features import build_features
 from src.models.build_dendogram import build_dendogram
 from src.visualization import visualize
-import time
+from src.evaluation.uspto_accordance import evaluate
 
 
 def main():
@@ -15,7 +17,7 @@ def main():
     n_components = 100  # number of components to save after dimension reducing of tfidf matrices
 
     # dendogram parameters
-    tree_levels = [100, 7]  # number of clusters required for each level, must be descending order.
+    tree_levels = [20, 7]  # number of clusters required for each level, must be descending order.
 
     # Load data
     project_dir = os.path.abspath(os.path.join(__file__, '..', '..'))
@@ -37,6 +39,12 @@ def main():
     print ("    dendogram building running time is: {} ".format(time.time() - t0))
 
     pd.to_pickle(dendogram, os.path.join(output_dir, output_filename))
+
+    #TODO automate
+    top_class_label = 20
+    top_class_grade = evaluate(dendogram, input_dir, top_class_label)
+    print('Top class neighborhood grade: ' +  str(top_class_grade))
+
     # visualize
     # visualize(dendogram)
 

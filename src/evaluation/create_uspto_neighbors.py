@@ -12,7 +12,7 @@ SAMPLE = "sample"
 project_dir = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 input_dir = os.path.join(project_dir, 'data', 'processed', SAMPLE)
 figure_dir = os.path.join(project_dir, 'reports', 'figures')
-data_file = os.path.join(input_dir, 'patent_table_clean.pickle')
+data_file = os.path.join(input_dir, 'patent_table_clean_10k.pickle')
 connected_articles_file = os.path.join(input_dir, 'all_connected_patents.pickle')
 df = pd.read_pickle(data_file)
 
@@ -76,9 +76,9 @@ def select_random_pair(data_frame):
 #     return connected_articles
 
 columns = ['ind1', 'ind2']
-num_unconnected_patents = 1000
-num_topclass_neighbors = 100
-num_subclass_neighbors = 30
+num_unconnected_patents = 10000
+num_topclass_neighbors = 1000
+num_subclass_neighbors = 300
 
 unconnected_patents = pd.DataFrame(index= numpy.arange(0, num_unconnected_patents), columns=columns)
 topclass_neighbors = pd.DataFrame(index= numpy.arange(0, num_topclass_neighbors), columns=columns)
