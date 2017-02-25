@@ -25,10 +25,10 @@ class TfIdfer:
 
         df = df.fillna('')  # ignore nans
         features_dict = {}
-        vectorizer = TfidfVectorizer(max_df=max_df, min_df=min_df,
+        vectorizer = TfidfVectorizer(max_df=max_df, min_df=min_df, sublinear_tf=True,
                                      stop_words=self.stopwords if remove_stopwords else None)
         for col in cols:
-            print('tfidf of ', col)
+            print('calculating tfidf of column: ', col)
             features_dict[col] = vectorizer.fit_transform(df[col])  # calc tf-idf
 
         return features_dict
