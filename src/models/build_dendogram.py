@@ -18,11 +18,11 @@ def build_dendogram(features_sparse_matrix, dendogram_df: pd.DataFrame, tree_lev
 
     dendogram_df = pd.concat([dendogram_df, pd.DataFrame(columns=tree_levels)], copy=False)
 
-    print("computing K-means...")
+    print("--Computing K-means")
     last_centroids = None
     for i in range(len(tree_levels)):
         k = tree_levels[i]
-        print("K-means for " + str(k) + " clusters")
+        print("----K-means for " + str(k) + " clusters")
         km = KMeans(n_clusters=k, n_jobs=-1)
         if i == 0:
             km.fit(features_sparse_matrix)
@@ -32,6 +32,6 @@ def build_dendogram(features_sparse_matrix, dendogram_df: pd.DataFrame, tree_lev
             for j in range(len(last_centroids)):
                 dendogram_df.loc[dendogram_df[tree_levels[i - 1]] == j, k] = km.labels_[j]
         last_centroids = km.cluster_centers_
-    print("done.")
+    print("--K-means is done")
 
     return dendogram_df
