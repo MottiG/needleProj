@@ -20,7 +20,7 @@ class GraphFeaturesBuilder:
 
         # Reading the files
         print("Loading the graph features")
-        self.features_dict= pickle.load(open(os.path.join(graph_analysis_dir, 'graph_features_dict' + '.pickle'), 'rb'))
+        self.features_dict= pickle.load(open(os.path.join(graph_analysis_dir, 'graph_features_dict_50k' + '.pickle'), 'rb'))
 
 
     def get_features(self) -> dict:

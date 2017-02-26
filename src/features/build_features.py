@@ -45,10 +45,13 @@ def build_features(df, cols_of_tfidf, n_components):
     print("--Graph feature dimension reduction")
     t0 = time.time()
     graph_features_sprs_matrix = sparse.hstack(list(graph_features_dict.values()))
+    graph_features_sprs_matrix.tocsr()
     del graph_features_dict
     lsa = make_pipeline(TruncatedSVD(n_components), Normalizer(copy=False))
     graph_features_matrix = lsa.fit_transform(graph_features_sprs_matrix)
     print("--Dimension reduction total running time is: {} ".format(time.time() - t0))
+    print(graph_features_matrix.shape)
+    print(tfifd_features_matrix.shape)
 
     features_matrix = np.hstack([tfifd_features_matrix,graph_features_matrix])
     return features_matrix

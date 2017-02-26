@@ -64,7 +64,7 @@ class GraphFeatures:
                 #
                 sparse_feature[community_graphID2rowID, community_i] = True
                 community_i += 1
-
+        print("done.")
 
         # print("reordering")
         # sparse_feature = sparse_mat((len(self.pt_index), num_of_large_communities + 1), dtype=bool)
@@ -92,7 +92,7 @@ class GraphFeatures:
 
         return features_dict
 
-SAMPLE = 'sample'
+SAMPLE = ''
 print("Loading dataframe")
 project_dir = os.path.abspath(os.path.join(__file__, '..', '..','..'))
 input_dir = os.path.join(project_dir, 'data', 'processed',SAMPLE)
