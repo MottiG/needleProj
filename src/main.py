@@ -6,6 +6,7 @@ from src.features.build_features import build_features
 from src.models.build_dendogram import build_dendogram
 from src.visualization import visualize
 from src.evaluation.uspto_accordance import evaluate
+from src.evaluation.tools import dendrogram_to_list
 
 
 def main():
@@ -13,11 +14,11 @@ def main():
     SAMPLE = "sample"
 
     # features parameters
-    cols_of_tfidf = ['title', 'abstract']  # name of columns to apply tfidf vectorization
+    cols_of_tfidf = ['abstract']  # name of columns to apply tfidf vectorization
     n_components = 100  # number of components to save after dimension reducing of tfidf matrices
 
     # dendogram parameters
-    tree_levels = [20, 7]  # number of clusters required for each level, must be descending order.
+    tree_levels = [100, 7]  # number of clusters required for each level, must be descending order.
 
     # Load data
     project_dir = os.path.abspath(os.path.join(__file__, '..', '..'))
@@ -29,7 +30,7 @@ def main():
         output_filename = 'dendogram '+'-'.join(str(x) for x in tree_levels)+'.pickle'
 
     print('Loading data')
-    df = pd.read_pickle(os.path.join(input_dir, 'patent_table_clean.pickle'))
+    df = pd.read_pickle(os.path.join(input_dir, 'patent_table_new_10k.pickle'))
 
     # Create features
     features_matrix = build_features(df, cols_of_tfidf, n_components)
@@ -41,7 +42,7 @@ def main():
     pd.to_pickle(dendogram, os.path.join(output_dir, output_filename))
 
     #TODO automate
-    top_class_label = 20
+    top_class_label = 100
     top_class_grade = evaluate(dendogram, input_dir, top_class_label)
     print('Top class neighborhood grade: ' +  str(top_class_grade))
 
