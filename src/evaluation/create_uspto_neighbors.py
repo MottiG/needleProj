@@ -12,7 +12,7 @@ SAMPLE = ""
 project_dir = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 input_dir = os.path.join(project_dir, 'data', 'processed', SAMPLE)
 figure_dir = os.path.join(project_dir, 'reports', 'figures')
-data_file = os.path.join(input_dir, 'patent_table_clean_new.pickle')
+data_file = os.path.join(input_dir, 'patent_table_clean_new_no_abstract.pickle')
 connected_articles_file = os.path.join(input_dir, 'all_connected_patents.pickle')
 df = pd.read_pickle(data_file)
 

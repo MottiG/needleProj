@@ -30,6 +30,6 @@ full_table = full_table.sample(frac=1).reset_index(drop=True)
 full_table['p1_title'],  full_table['p1_abstract'],full_table['p2_title'],full_table['p2_abstract'] = \
     zip(*full_table.apply(lambda x: extract_titles_abstracts(x['ind1'], x['ind2']), axis=1))
 
-full_table.to_csv(os.path.join(input_dir, 'evaluation_table.csv'))
+full_table.to_csv(os.path.join(input_dir, 'evaluation_table.csv'), sep='\t')
 
 

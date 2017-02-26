@@ -52,7 +52,7 @@ def extract_classes(classes_list):
 
     return main_top_class, main_subclass, list(set(other_classes))
 
-SAMPLE = "sample"
+SAMPLE = ""
 
 project_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..'))
 input_dir = os.path.join(project_dir, 'data', 'raw', SAMPLE)
@@ -72,7 +72,7 @@ patents_df = pd.read_csv(os.path.join(input_dir, 'patents.txt'), sep='\t')
 print("Processing")
 abstract_df.set_index('patentID', inplace=True)
 
-authors_df['whole_name'] = authors_df.apply(lambda x: ' '.join((x['firstname'], x['lastname'])), axis=1)
+authors_df['whole_name'] = authors_df.apply(lambda x: ' '.join((str(x['firstname']), str(x['lastname']))), axis=1)
 authors_df= authors_df.groupby('patentID')['whole_name'].aggregate(lambda x: tuple(x))
 authors_df = authors_df.to_frame('inventors')
 
@@ -86,10 +86,16 @@ categories_df['main top class'], categories_df['main subclass'], categories_df['
 patents_df.set_index('patentID', inplace=True)
 
 #Joining and dumping
-print("Finished")
+
 full_patent_table = patents_df.join(categories_df, how='outer').join(abstract_df, how='outer').join(authors_df, how='outer').join(citations_df, how='outer')
 patent_no_nas = full_patent_table.dropna()
 
-pickle.dump(patent_no_nas, open(os.path.join(output_dir, 'patent_table_clean.pickle'), 'wb'))
-pickle.dump(full_patent_table, open(os.path.join(output_dir, 'patent_table_with_nas.pickle'), 'wb'))
+print("No. of patents: " + str(len(patents_df)))
+print("No. of abstracts: " + str(len(abstract_df)))
+print("Final length: " + str(len(patent_no_nas)))
+print("Dumping")
+pd.to_pickle(patent_no_nas, os.path.join(output_dir, 'patent_table_clean_new.pickle'))
 
+patent_no_nas = patent_no_nas.drop('abstract', 1)
+
+pd.to_pickle(patent_no_nas, os.path.join(output_dir, 'patent_table_clean_new_no_abstract.pickle'))
