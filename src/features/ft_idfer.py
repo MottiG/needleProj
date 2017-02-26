@@ -21,14 +21,12 @@ class TfIdfer:
         :param min_df: float in range [0.0, 1.0] or int, default=1
         :return: dictionary with keys as columns of "cols" and values contains the matrices of tf-idf.
         """
-        print("computing Tf-Idf...")
-
         df = df.fillna('')  # ignore nans
         features_dict = {}
-        vectorizer = TfidfVectorizer(max_df=max_df, min_df=min_df,
+        vectorizer = TfidfVectorizer(max_df=max_df, min_df=min_df, sublinear_tf=True,
                                      stop_words=self.stopwords if remove_stopwords else None)
         for col in cols:
-            print('tfidf of ', col)
+            print('----calculating tfidf of column: ', col)
             features_dict[col] = vectorizer.fit_transform(df[col])  # calc tf-idf
 
         return features_dict
