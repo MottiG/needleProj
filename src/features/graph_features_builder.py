@@ -69,7 +69,7 @@ class GraphFeaturesBuilder:
         print("dict:ptntID2graphId")
         self.ptntID2graphId = dict(zip(self.G.vs.get_attribute_values("name"),self.G.vs.indices))
         print("dict:graphID2rowId")
-        self.graphID2rowId = dict(zip([self.ptntID2graphId[self.pt_index[i]] for i in range(0,len(self.pt_index))],range(0,len(self.pt_index))))
+        self.graphID2rowId = dict(zip([self.ptntID2graphId[df.index[i]] for i in range(0,len(df.index))],range(0,len(df.index))))
 
         print("community_label_propagation")
         community_label_propagation_sparse = self.community_vector_2sparse(self.v_community_label_propagation,minimal_community_size, df.index)
