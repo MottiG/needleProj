@@ -37,7 +37,7 @@ def build_clusters(features_sparse_matrix, dendogram_df: pd.DataFrame, tree_leve
     #             dendogram_df.loc[dendogram_df[tree_levels[i - 1]] == j, k] = km.labels_[j]
     #     last_centroids = km.cluster_centers_
 
-    km = KMeans(n_clusters=int(features_sparse_matrix.shape[0]**0.5), n_jobs=-1)
+    km = KMeans(n_clusters=200, n_jobs=-1)
     km.fit(features_sparse_matrix)
     dendogram_df.loc[:, 'kmeans_labels'] = km.labels_
     print('--Computing Hierarchical clustering ')
