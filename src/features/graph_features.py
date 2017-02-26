@@ -14,8 +14,6 @@ except:
    import pickle
 import os
 
-MAX_NUM_COMMUNITIES = 10000
-
 class GraphFeatures:
     """
     Build tf-ifd features for a given dataframe
@@ -94,11 +92,12 @@ class GraphFeatures:
 
         return features_dict
 
+SAMPLE = 'sample'
 print("Loading dataframe")
 project_dir = os.path.abspath(os.path.join(__file__, '..', '..','..'))
-input_dir = os.path.join(project_dir, 'data', 'processed')
+input_dir = os.path.join(project_dir, 'data', 'processed',SAMPLE)
 graph_analysis_dir = os.path.join(project_dir, 'data', 'processed','citation graph')
-df = pd.read_pickle(os.path.join(input_dir, 'patent_table_clean.pickle'))
+df = pd.read_pickle(os.path.join(input_dir, 'patent_table_clean_new.pickle'))
 
 print("GraphFeatures")
 test = GraphFeatures(df)
