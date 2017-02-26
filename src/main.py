@@ -9,8 +9,8 @@ import time
 
 def main():
     # for running on full data set SAMPLE = ""
-    SAMPLE = ""
-    sample_file_name = 'patent_table_clean_new'
+    SAMPLE = "sample"
+    sample_file_name = 'patent_table_new_50k'
 
     # features parameters
     cols_of_tfidf = ['abstract']  # name of columns to apply tfidf vectorization
