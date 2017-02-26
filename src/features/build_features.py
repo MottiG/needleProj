@@ -12,7 +12,7 @@ build all the features of the patents - text features (tfidf vectors) and graph 
 """
 
 
-def build_features(df, cols_of_tfidf, n_components):
+def build_features(df, cols_of_tfidf, n_components, minimal_community_size):
     """
     build all the features of the patents
     :param df: pandas DataFrame contains the patents data
@@ -31,7 +31,7 @@ def build_features(df, cols_of_tfidf, n_components):
     print("--Tf-idf feature dimension reduction")
     t0 = time.time()
     tfifd_features_sprs_matrix = sparse.hstack(list(tf_idf_features_dict.values()))
-    del tf_idf_features_dict  # TODO check that its not reference!
+    del tf_idf_features_dict
     lsa = make_pipeline(TruncatedSVD(n_components), Normalizer(copy=False))
     tfifd_features_matrix = lsa.fit_transform(tfifd_features_sprs_matrix)
     print("--Dimension reduction total running time is: {} ".format(time.time() - t0))
@@ -39,7 +39,8 @@ def build_features(df, cols_of_tfidf, n_components):
     print('Getting graph features')
     t0 = time.time()
     graph_geatures_builder = GraphFeaturesBuilder()
-    graph_features_dict = graph_geatures_builder.get_features(df, minimal_community_size = 3)
+    graph_features_dict = graph_geatures_builder.get_features(df, minimal_community_size)
+
     print("Graph features total running time is: {} ".format(time.time() - t0))
 
     print("--Graph feature dimension reduction")
@@ -49,8 +50,6 @@ def build_features(df, cols_of_tfidf, n_components):
     lsa = make_pipeline(TruncatedSVD(n_components), Normalizer(copy=False))
     graph_features_matrix = lsa.fit_transform(graph_features_sprs_matrix)
     print("--Dimension reduction total running time is: {} ".format(time.time() - t0))
-    print(graph_features_matrix.shape) #TODO dell
-    print(tfifd_features_matrix.shape) #TODO dell
 
     features_matrix = np.hstack([tfifd_features_matrix,graph_features_matrix])
     return features_matrix
