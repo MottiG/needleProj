@@ -11,6 +11,7 @@ from sklearn.pipeline import make_pipeline
 build all the features of the patents - text features (tfidf vectors) and graph features (communities)
 """
 
+
 def build_features(df, cols_of_tfidf, n_components):
     """
     build all the features of the patents

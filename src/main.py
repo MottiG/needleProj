@@ -1,18 +1,19 @@
 import pandas as pd
 import os
 from src.features.build_features import build_features
-from src.models.build_dendogram import build_dendogram
-from src.visualization import visualize
+from src.models.build_clusters import build_clusters
+import pickle
+from src.visualization.visualize import visualize_dendrogram
 import time
 
 
 def main():
     # for running on full data set SAMPLE = ""
     SAMPLE = "sample"
-    sample_file_name = 'patent_table_clean_10k'
+    sample_file_name = 'patent_table_clean_50k'
 
     # features parameters
-    cols_of_tfidf = ['title', 'abstract']  # name of columns to apply tfidf vectorization
+    cols_of_tfidf = ['abstract']  # name of columns to apply tfidf vectorization
     n_components = 100  # number of components to save after dimension reducing of tfidf matrices
 
     # dendogram parameters
@@ -25,9 +26,11 @@ def main():
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     if SAMPLE:
-        output_filename = 'dendogram '+sample_file_name+' '+'-'.join(str(x) for x in tree_levels)+'.pickle'
+        kmeans_labels_filename = 'kmeans_labels '+sample_file_name+'.pickle'
+        z_matrix_filename = 'z_matrix '+sample_file_name+'.pickle'
     else:
-        output_filename = 'dendogram '+'-'.join(str(x) for x in tree_levels)+'.pickle'
+        kmeans_labels_filename = 'kmeans_labels.pickle'
+        z_matrix_filename = 'z_matrix.pickle'
 
     print('Loading data')
     df = pd.read_pickle(os.path.join(input_dir, sample_file_name+'.pickle'))
@@ -40,13 +43,18 @@ def main():
 
     print('Building dendogram')
     t0 = time.time()
-    dendogram = build_dendogram(features_matrix, pd.DataFrame(index=df.index.copy()), tree_levels)
+    kmeans_labels, z_matrix = build_clusters(features_matrix, pd.DataFrame(index=df.index.copy()), tree_levels)
     print ("Dendogram building running time is: {} ".format(time.time() - t0))
 
-    print('Saving output as', output_filename)
-    pd.to_pickle(dendogram, os.path.join(output_dir, output_filename))
+    # print('Saving kmeans labels as', kmeans_labels_filename)
+    # pd.to_pickle(kmeans_labels, os.path.join(output_dir, kmeans_labels_filename))
+    # print('Saving z matrix as', z_matrix_filename)
+    # with open(os.path.join(output_dir, z_matrix_filename), 'wb') as zfile:
+    #     pickle.dump(z_matrix, zfile)
+
     # visualize
-    # visualize(dendogram)
+    print('Visualize')
+    visualize_dendrogram(kmeans_labels, z_matrix)
 
 if __name__ == '__main__':
 
