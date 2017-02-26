@@ -1,6 +1,7 @@
 from sklearn.cluster import MiniBatchKMeans
 import pandas as pd
 from scipy.cluster.hierarchy import linkage
+import warnings
 
 """
 Build a dendogram of the patents, by creating several levels of k-means clusters where each level has a
@@ -19,7 +20,9 @@ def build_clusters(features_sparse_matrix, dendogram_df: pd.DataFrame, kmeans: i
 
     print("--Computing K-means")
     km = MiniBatchKMeans(n_clusters=kmeans)
-    km.fit(features_sparse_matrix)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=DeprecationWarning)
+        km.fit(features_sparse_matrix)
     dendogram_df.loc[:, 'kmeans_labels'] = km.labels_
     print('--Computing Hierarchical clustering ')
     z = linkage(km.cluster_centers_, method='average')
