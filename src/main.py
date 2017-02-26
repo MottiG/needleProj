@@ -16,7 +16,7 @@ def main():
     cols_of_tfidf = ['abstract']  # name of columns to apply tfidf vectorization
     minimal_community_size = 3
     n_components = 150  # number of components to save after dimension reducing of tfidf matrices
-    k_means = 250
+    k_means = 250  # number of cluster to be the base of the hierarchical clustering
 
 
     # Load data
