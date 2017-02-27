@@ -9,7 +9,10 @@ class TfIdfer:
 
     def __init__(self):
         self.stopwords = stopwords.words('english')
-
+        more_stops = ['method','methods','apparatus','invention','system','device', 'thereof',
+                      'one', 'present', 'least', 'also', 'may', 'wherein',
+                      'use','used', 'useful', 'first', 'second', 'two', 'using', 'end']
+        self.stopwords += more_stops
     def get_features(self, df, cols: list,
                      remove_stopwords: bool = True, max_df: float = 1.0, min_df: float = 1) -> dict:
         """
