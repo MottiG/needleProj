@@ -9,28 +9,28 @@ import time
 
 def main():
     # for running on full data set SAMPLE = ""
-    SAMPLE = ""
+    SAMPLE = "sample"
     df_file_name = 'patent_table_clean_new'
 
     # features parameters
     cols_of_tfidf = ['abstract']  # name of columns to apply tfidf vectorization
-    minimal_community_size = 3
+    minimal_community_size = 2
     n_components = 150  # number of components to save after dimension reducing of tfidf matrices
-    k_means = 250  # number of cluster to be the base of the hierarchical clustering
+    k_means = 639  # number of cluster to be the base of the hierarchical clustering
 
 
     # Load data
     project_dir = os.path.abspath(os.path.join(__file__, '..', '..'))
     input_dir = os.path.join(project_dir, 'data', 'processed', SAMPLE)
-    output_dir = os.path.join(project_dir, 'data', 'processed', 'dendograms')
+    output_dir = os.path.join(project_dir, 'data', 'processed', 'dendograms', SAMPLE)
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     if SAMPLE:
         kmeans_labels_filename = 'kmeans_labels '+df_file_name+'.pickle'
         z_matrix_filename = 'z_matrix '+df_file_name+'.pickle'
     else:
-        kmeans_labels_filename = 'kmeans_labels.pickle'
-        z_matrix_filename = 'z_matrix.pickle'
+        kmeans_labels_filename = 'kmeans_labels' + str(k_means) + '.pickle'
+        z_matrix_filename = 'z_matrix' + str(k_means) +'.pickle'
 
     print('Loading data')
     df = pd.read_pickle(os.path.join(input_dir, df_file_name+'.pickle'))

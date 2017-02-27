@@ -6,6 +6,7 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.preprocessing import Normalizer
 from sklearn.pipeline import make_pipeline
 from .graph_features_builder import GraphFeaturesBuilder
+import pickle, os
 
 """
 build all the features of the patents - text features (tfidf vectors) and graph features (communities)
