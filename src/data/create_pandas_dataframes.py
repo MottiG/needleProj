@@ -2,6 +2,8 @@ import os
 import pandas as p
 import pickle
 
+import time
+
 '''
 This file creates the dataframes from the txt files in /data/raw folder and saves them in /data/interim folder
 '''
@@ -22,5 +24,12 @@ for raw_file_name in file_names:
 
     output_file_name = raw_file_name[:-4] + '.pickle'
     file_name = os.path.join(output_dir, output_file_name)
+
+    tic = time.time()
     pickle.dump(dataframe, open( file_name, "wb"))
+    print('pickle.dump time=%f' % (time.time() - tic))
+
+    tic = time.time()
+    dataframe.to_pickle(file_name)
+    print('dataframe.to_pickle time=%f' % (time.time() - tic))
 
