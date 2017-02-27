@@ -5,7 +5,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import metrics
 
+'''
+This file contains evalution function according according to manual labeling that was done by the project members
+'''
+
+
 def pull_patents(ind1, ind2, df):
+    """
+    Returns the patents numbered ind1 and ind2 from df
+    """
     ind_list =[]
     if str(ind1) in df.index:
         ind_list.append(str(ind1))
@@ -14,15 +22,24 @@ def pull_patents(ind1, ind2, df):
     return df.loc[ind_list, :]
 
 
-def fpr_tpr_manual(patents_df, zmat, t, evaluation_table, ground_truth_label):
+def fpr_tpr_manual(labels_df, zmat, t, evaluation_table, ground_truth_label):
+    """
+    Creates FPR and TPR values for a range of
+    :param labels_df: the dataframe with original batch clusters of the patents
+    :param zmat: the z-matrix from the linkage
+    :param t: the threshold for flat cluster creation
+    :param evaluation_table: the reference table with ground truth
+    :param ground_truth_label: the name of the column with ground truth labels
+    :return:
+    """
     clusters = fcluster(zmat, t)
-    patents_df['final cluster'] = patents_df.apply(lambda x: clusters[int(x['kmeans_labels'])], axis=1)
+    labels_df['final cluster'] = labels_df.apply(lambda x: clusters[int(x['kmeans_labels'])], axis=1)
 
     tp, fp, p, n  = 0.0, 0.0, 0.0, 0.0
     for index, pair in evaluation_table.iterrows():
-        if str(pair['ind1']) in patents_df.index and str(pair['ind2']) in patents_df.index:
-            cluster1 = patents_df.loc[str(pair['ind1']), 'final cluster']
-            cluster2 = patents_df.loc[str(pair['ind2']), 'final cluster']
+        if str(pair['ind1']) in labels_df.index and str(pair['ind2']) in labels_df.index:
+            cluster1 = labels_df.loc[str(pair['ind1']), 'final cluster']
+            cluster2 = labels_df.loc[str(pair['ind2']), 'final cluster']
 
             if pair[ground_truth_label] == 1.0:
                 p += 1
@@ -53,6 +70,13 @@ def fpr_tpr_manual(patents_df, zmat, t, evaluation_table, ground_truth_label):
 
 
 def evaluate_manual(kmeans_df, z_matrix, evaluation_table):
+    """
+    Returns the ROC + AUC for a given categorization of the patents, against the ground truth of manual labeling
+    :param kmeans_df: the dataframe with original batch clusters of the patents
+    :param zmat: the z-matrix from the linkage
+    :param evaluation_table:
+    :return:
+    """
     evaluated_articles = pd.DataFrame(columns=kmeans_df.columns.values.tolist())
 
     for index, row in evaluation_table.iterrows():

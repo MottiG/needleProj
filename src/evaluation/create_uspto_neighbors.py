@@ -17,8 +17,6 @@ connected_articles_file = os.path.join(input_dir, 'all_connected_patents.pickle'
 df = pd.read_pickle(data_file)
 
 
-# In[47]:
-
 def select_random_pair(data_frame):
     while True:
         int_ind1 = random.randint(0,len(data_frame)-1)
@@ -31,49 +29,6 @@ def select_random_pair(data_frame):
     return ind1, ind2
 
 
-# def create_unconnected_articles(df, num_articles):
-#     columns = ['index1','index2']
-#     unconnected_articles = pd.DataFrame(index=numpy.arange(0, num_articles), columns=columns)
-#     curr_ind = 0
-#     while curr_ind < num_articles:
-#         (ind1,ind2), dist, percentage_dist = select_random_pair(df)
-#         if (dist == 0):
-#             unconnected_articles.loc[curr_ind] = [ind1, ind2]
-#             curr_ind += 1
-#     return unconnected_articles
-#
-#
-# def create_connected_articles(df, num_random_pairs, savefig=False):
-#     columns = ['index1','index2', 'common class distance', 'percentage distance']
-#     num_connected_articles = num_random_pairs/1000
-#     connected_articles = pd.DataFrame(index=numpy.arange(0, num_connected_articles), columns=columns)
-#     curr_connected_ind = 0
-#     distances = deque()
-#     percentage_distances = deque()
-#     for i in range(num_random_pairs):
-#         (ind1,ind2), dist, percentage_dist = select_random_pair(df)
-#         distances.append(dist)
-#         percentage_distances.append(percentage_dist)
-#         if (dist > 0):
-#             if curr_connected_ind < num_connected_articles:
-#                 connected_articles.loc[curr_connected_ind] = [ind1, ind2, dist, percentage_dist]
-#                 curr_connected_ind+=1
-#
-#     if savefig:
-#         cnt = Counter(list(distances))
-#         fig, ax = plt.subplots()
-#         ax.bar(list(cnt.keys()), list(cnt.values()))
-#         ax.set_yscale('log')
-#         plt.savefig(os.path.join(figure_dir, 'distance_statistics.png'))
-#
-#     if savefig:
-#         fig, ax2 = plt.subplots()
-#         n, bins, patches = plt.hist(list(percentage_distances), 10)
-#         ax2.set_yscale('log')
-#         plt.savefig(os.path.join(figure_dir, 'percentage_distance_statistic.png'))
-#
-#     connected_articles = connected_articles[:curr_connected_ind+1]
-#     return connected_articles
 
 columns = ['ind1', 'ind2']
 num_unconnected_patents = 150
