@@ -2,6 +2,7 @@ import pandas as pd
 import os
 from features.build_features import build_features
 from models.build_clusters import build_clusters
+from evaluation.manual_evaluation import evaluate_manual
 import pickle
 from visualization.visualize import visualize_dendrogram
 import time
@@ -9,7 +10,7 @@ import time
 
 def main():
     # for running on full data set SAMPLE = ""
-    SAMPLE = "sample"
+    SAMPLE = ""
     df_file_name = 'patent_table_clean_new'
 
     # features parameters
@@ -29,8 +30,8 @@ def main():
         kmeans_labels_filename = 'kmeans_labels '+df_file_name+'.pickle'
         z_matrix_filename = 'z_matrix '+df_file_name+'.pickle'
     else:
-        kmeans_labels_filename = 'kmeans_labels' + str(k_means) + '.pickle'
-        z_matrix_filename = 'z_matrix' + str(k_means) +'.pickle'
+        kmeans_labels_filename = 'kmeans_labels' + str(k_means) + 'tfidf' +  '.pickle'
+        z_matrix_filename = 'z_matrix' + str(k_means) + 'tfidf' + '.pickle'
 
     print('Loading data')
     df = pd.read_pickle(os.path.join(input_dir, df_file_name+'.pickle'))
@@ -52,6 +53,15 @@ def main():
     print('Saving z matrix as', z_matrix_filename)
     with open(os.path.join(output_dir, z_matrix_filename), 'wb') as zfile:
         pickle.dump(z_matrix, zfile)
+
+    #evaluate
+    evaluation_file_name = os.path.join(project_dir, 'data', 'evaluation_table.txt')
+    evaluation_table = pd.read_csv(evaluation_file_name, sep='\t')
+    fpr, tpr, auc = evaluate_manual(kmeans_labels, z_matrix, evaluation_table)
+    print("AUC of ROC curve: %f" % auc)
+
+    with open(os.path.join(output_dir, ('tpr_fpr' + '_tfidf' + '.pickle'), 'wb')) as tpr_file:
+        pickle.dump((fpr, tpr), tpr_file)
 
     # visualize
     print('Visualize')
