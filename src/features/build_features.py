@@ -37,21 +37,20 @@ def build_features(df, cols_of_tfidf, n_components, minimal_community_size):
     tfifd_features_matrix = lsa.fit_transform(tfifd_features_sprs_matrix)
     print("--Dimension reduction total running time is: {} ".format(time.time() - t0))
 
-    # print('Getting graph features')
-    # t0 = time.time()
-    # graph_geatures_builder = GraphFeaturesBuilder()
-    # graph_features_dict = graph_geatures_builder.get_features(df, minimal_community_size)
-    #
-    # print("Graph features total running time is: {} ".format(time.time() - t0))
-    #
-    # print("--Graph feature dimension reduction")
-    # t0 = time.time()
-    # graph_features_sprs_matrix = sparse.hstack(list(graph_features_dict.values()))
-    # del graph_features_dict
-    # lsa = make_pipeline(TruncatedSVD(n_components), Normalizer(copy=False))
-    # graph_features_matrix = lsa.fit_transform(graph_features_sprs_matrix)
-    # print("--Dimension reduction total running time is: {} ".format(time.time() - t0))
+    print('Getting graph features')
+    t0 = time.time()
+    graph_geatures_builder = GraphFeaturesBuilder()
+    graph_features_dict = graph_geatures_builder.get_features(df, minimal_community_size)
 
-    # features_matrix = np.hstack([tfifd_features_matrix,graph_features_matrix])
-    features_matrix = np.hstack([tfifd_features_matrix])
+    print("Graph features total running time is: {} ".format(time.time() - t0))
+
+    print("--Graph feature dimension reduction")
+    t0 = time.time()
+    graph_features_sprs_matrix = sparse.hstack(list(graph_features_dict.values()))
+    del graph_features_dict
+    lsa = make_pipeline(TruncatedSVD(n_components), Normalizer(copy=False))
+    graph_features_matrix = lsa.fit_transform(graph_features_sprs_matrix)
+    print("--Dimension reduction total running time is: {} ".format(time.time() - t0))
+
+    features_matrix = np.hstack([tfifd_features_matrix,graph_features_matrix])
     return features_matrix

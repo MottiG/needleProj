@@ -15,7 +15,7 @@ def main():
 
     # features parameters
     cols_of_tfidf = ['abstract']  # name of columns to apply tfidf vectorization
-    minimal_community_size = 2
+    minimal_community_size = 2  # minimal size of the graph communities
     n_components = 150  # number of components to save after dimension reducing of tfidf matrices
     k_means = 639  # number of cluster to be the base of the hierarchical clustering
 
@@ -30,8 +30,8 @@ def main():
         kmeans_labels_filename = 'kmeans_labels '+df_file_name+'.pickle'
         z_matrix_filename = 'z_matrix '+df_file_name+'.pickle'
     else:
-        kmeans_labels_filename = 'kmeans_labels' + str(k_means) + 'tfidf' + '.pickle'
-        z_matrix_filename = 'z_matrix' + str(k_means) + 'tfidf' + '.pickle'
+        kmeans_labels_filename = 'kmeans_labels' + str(k_means) + 'new' + '.pickle'
+        z_matrix_filename = 'z_matrix' + str(k_means) + 'new' + '.pickle'
 
     print('Loading data')
     df = pd.read_pickle(os.path.join(input_dir, df_file_name+'.pickle'))
@@ -60,12 +60,8 @@ def main():
     fpr, tpr, auc = evaluate_manual(kmeans_labels, z_matrix, evaluation_table)
     print("AUC of ROC curve: %f" % auc)
 
-    with open(os.path.join(output_dir, ('tpr_fpr' + 'tfidf' + '.pickle')), 'wb') as tpr_file:
+    with open(os.path.join(output_dir, ('tpr_fpr' + 'new' + '.pickle')), 'wb') as tpr_file:
         pickle.dump((fpr, tpr), tpr_file)
-
-    # visualize
-    print('Visualize')
-    visualize_dendrogram(kmeans_labels, z_matrix)
 
 if __name__ == '__main__':
 
