@@ -30,7 +30,7 @@ def main():
         kmeans_labels_filename = 'kmeans_labels '+df_file_name+'.pickle'
         z_matrix_filename = 'z_matrix '+df_file_name+'.pickle'
     else:
-        kmeans_labels_filename = 'kmeans_labels' + str(k_means) + 'tfidf' +  '.pickle'
+        kmeans_labels_filename = 'kmeans_labels' + str(k_means) + 'tfidf' + '.pickle'
         z_matrix_filename = 'z_matrix' + str(k_means) + 'tfidf' + '.pickle'
 
     print('Loading data')
@@ -60,7 +60,7 @@ def main():
     fpr, tpr, auc = evaluate_manual(kmeans_labels, z_matrix, evaluation_table)
     print("AUC of ROC curve: %f" % auc)
 
-    with open(os.path.join(output_dir, ('tpr_fpr' + '_tfidf' + '.pickle'), 'wb')) as tpr_file:
+    with open(os.path.join(output_dir, ('tpr_fpr' + 'tfidf' + '.pickle')), 'wb') as tpr_file:
         pickle.dump((fpr, tpr), tpr_file)
 
     # visualize
