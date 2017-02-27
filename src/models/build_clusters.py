@@ -19,7 +19,7 @@ def build_clusters(features_sparse_matrix, dendogram_df: pd.DataFrame, kmeans: i
     """
 
     print("--Computing K-means")
-    km = MiniBatchKMeans(n_clusters=kmeans)
+    km = MiniBatchKMeans(n_clusters=kmeans, batch_size=(int(kmeans/2)))
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=DeprecationWarning)
         km.fit(features_sparse_matrix)

@@ -1,6 +1,6 @@
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
-
+import os, pickle
 
 class TfIdfer:
     """
@@ -21,12 +21,23 @@ class TfIdfer:
         :param min_df: float in range [0.0, 1.0] or int, default=1
         :return: dictionary with keys as columns of "cols" and values contains the matrices of tf-idf.
         """
+
+        project_dir = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
+        features_dict_file = os.path.join(project_dir, 'models', 'tf_idf_features_dict.pickle')
+        models_file = os.path.join(project_dir, 'models', 'tf_idf_vectorizers.pickle')
+
         df = df.fillna('')  # ignore nans
         features_dict = {}
-        vectorizer = TfidfVectorizer(max_df=max_df, min_df=min_df, sublinear_tf=True,
-                                     stop_words=self.stopwords if remove_stopwords else None)
+        vectorizers_dict = {}
+
         for col in cols:
             print('----calculating tfidf of column: ', col)
+            vectorizer = TfidfVectorizer(max_df=max_df, min_df=min_df, sublinear_tf=True,
+                                         stop_words=self.stopwords if remove_stopwords else None)
             features_dict[col] = vectorizer.fit_transform(df[col])  # calc tf-idf
+            vectorizers_dict[col] = vectorizer
+
+        pickle.dump(features_dict, open(features_dict_file, 'wb'))
+        pickle.dump(vectorizers_dict, open(models_file, 'wb'))
 
         return features_dict
